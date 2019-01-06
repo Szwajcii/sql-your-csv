@@ -1,0 +1,75 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+}
+div {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.tableInfo {
+    text-align: center;
+    width: 100%;
+    text-decoration: underline;
+
+}
+
+#headerContainer, #formContainer, #filesTableContainer, #resultTableContainer {
+    width: 100%;
+}
+
+#filesTableContainer, #resultTableContainer {
+    overflow: auto;
+}
+
+#filesTableContainer {
+    max-height: 150px;
+}
+
+#resultTableContainer {
+    max-height: 600px;
+}
+
+#header {
+    text-align: center;
+    width: 100%;
+}
+
+#submitButton {
+    width: 10%;
+}
+
+#inputLabel {
+    margin: 0;
+    font-size: x-large;
+}
+
+#query {
+    width: 70%;
+}
+
+#inputForm {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+#filesTable {
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+
+}
+
+#resultTable {
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+#filesTableColumnName {
+    text-align: center;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/bootstrap.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script type="application/javascript" src="../static/scripts.js"></script>
+    <title>SQL Your CSV!</title>
+</head>
+<body>
+    <div id="headerContainer">
+        <h1 id="header">SQL Your CSV</h1>
+    </div>
+    <div id="formContainer">
+        <form id="inputForm" method="POST" onkeyup="parseQuery()">
+            <label id="inputLabel" for="query">Enter your query here: </label>
+            <input type="text" id="query" name="query" placeholder="SELECT * FROM xyz.csv">
+            <button type="submit" id="submitButton" disabled>SUBMIT</button>
+        </form>
+    </div>
+    <h2 class="tableInfo">Available CSV files</h2>
+    <div id="filesTableContainer">
+        <table id="filesTable" class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>xyz.csv</td>
+                <td>abc.csv</td>
+            </tr>
+            <tr>
+                <td>xyz.csv</td>
+                <td>abc.csv</td>
+            </tr>
+            <tr>
+                <td>xyz.csv</td>
+                <td>abc.csv</td>
+            </tr>
+            <tr>
+                <td>xyz.csv</td>
+                <td>abc.csv</td>
+            </tr>
+            <tr>
+                <td>xyz.csv</td>
+                <td>abc.csv</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
