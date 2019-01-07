@@ -21,6 +21,10 @@
         </form>
     </div>
     <h2 class="tableInfo">Available CSV files</h2>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" /><br/><br/>
+        <input type="submit" value="Submit" />
+    </form>
     <div id="filesTableContainer">
         <table id="filesTable" class="table table-bordered">
             <tbody>
