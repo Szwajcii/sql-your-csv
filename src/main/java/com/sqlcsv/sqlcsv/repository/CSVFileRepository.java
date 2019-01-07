@@ -2,18 +2,23 @@ package com.sqlcsv.sqlcsv.repository;
 
 import com.sqlcsv.sqlcsv.model.CSVFile;
 import com.sqlcsv.sqlcsv.service.CSVFileRepositoryPredicates;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@NoArgsConstructor
+@Getter
 @Repository
 public class CSVFileRepository implements CSVFileRepositoryInterface {
 
     private List<CSVFile> files;
+
+    public CSVFileRepository() {
+        this.files = new ArrayList<>();
+    }
 
     @Override
     public CSVFile save(CSVFile file) {
