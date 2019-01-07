@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-class Row {
+public class Row {
     private List<String> data;
 }
