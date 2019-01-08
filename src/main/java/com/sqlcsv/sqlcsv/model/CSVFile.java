@@ -2,6 +2,7 @@ package com.sqlcsv.sqlcsv.model;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,5 +12,5 @@ import java.util.List;
 @EqualsAndHashCode
 public class CSVFile {
     private String name;
-    private List<Row> rows;
+    private List<Row> rows = new ArrayList<>();
 }
