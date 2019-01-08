@@ -14,12 +14,17 @@ div {
 
 }
 
-#headerContainer, #formContainer, #filesTableContainer, #resultTableContainer {
+#headerContainer, #uploadFormContainer, #queryFormContainer, #filesTableContainer, #resultTableContainer {
     width: 100%;
 }
 
 #filesTableContainer, #resultTableContainer {
     overflow: auto;
+}
+
+#uploadFormContainer {
+    display: flex;
+    justify-content: center;
 }
 
 #filesTableContainer {
@@ -46,6 +51,10 @@ div {
 
 #query {
     width: 70%;
+}
+
+#uploadForm {
+    display: flex;
 }
 
 #inputForm {

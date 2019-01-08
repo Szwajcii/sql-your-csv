@@ -13,7 +13,7 @@
     <div id="headerContainer">
         <h1 id="header">SQL Your CSV</h1>
     </div>
-    <div id="formContainer">
+    <div id="queryFormContainer">
         <form id="inputForm" method="POST" onkeyup="parseQuery()">
             <label id="inputLabel" for="query">Enter your query here: </label>
             <input type="text" id="query" name="query" placeholder="SELECT * FROM xyz.csv">
@@ -21,10 +21,12 @@
         </form>
     </div>
     <h2 class="tableInfo">Available CSV files</h2>
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-        <input type="file" name="file" /><br/><br/>
-        <input type="submit" value="Submit" />
-    </form>
+    <div id="uploadFormContainer">
+        <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="file" multiple/><br/><br/>
+            <input type="submit" value="Upload" />
+        </form>
+    </div>
     <div id="filesTableContainer">
         <table id="filesTable" class="table table-bordered">
             <tbody>
