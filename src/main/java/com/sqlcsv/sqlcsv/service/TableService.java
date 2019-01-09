@@ -23,10 +23,10 @@ public class TableService implements TableServiceInterface {
     public List<String> getAllSpreadsheetsIds() throws IOException {
         FileList result = api.getDrive().files().list().execute();
         List<File> filess = result.getFiles();
-//        System.out.println("Files:");
-//        for (File file : filess) {
-//            System.out.printf("%s (%s)\n", file.getName(), file.getId());
-//        }
+        System.out.println("Files:");
+        for (File file : filess) {
+            System.out.printf("%s (%s)\n", file.getName(), file.getId());
+        }
         return null;
     }
 

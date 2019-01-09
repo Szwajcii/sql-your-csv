@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -34,36 +33,34 @@ public class GoogleAPI {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final java.io.File CREDENTIALS_FOLDER = new java.io.File("/home/bartosz/Codecool/Advanced/sql-your-csv/src/main/resources");
     private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
-    private static final List<String> DRIVE_SCOPES = Collections.singletonList(DriveScopes.DRIVE_READONLY);
-    private static final List<String> SHEETS_SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
+    private static final List<String> SCOPES = List.of(DriveScopes.DRIVE_READONLY, SheetsScopes.SPREADSHEETS_READONLY);
+
     private Drive drive;
     private Sheets sheets;
 
     public GoogleAPI() throws IOException, GeneralSecurityException {
-        System.out.println("1");
         GoogleServiceEntry gse = getServices();
         this.drive = gse.getDrive();
         this.sheets = gse.getSheets();
     }
 
-    private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, List<String> scopes) throws IOException {
+    private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         java.io.File clientSecretFile = new java.io.File(CREDENTIALS_FOLDER, CLIENT_SECRET_FILE_NAME);
         InputStream clientSecretInputStream = new FileInputStream(clientSecretFile);
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(clientSecretInputStream));
-        System.out.println("2");
+
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
-                clientSecrets, scopes).setDataStoreFactory(new FileDataStoreFactory(CREDENTIALS_FOLDER))
+                clientSecrets, GoogleAPI.SCOPES).setDataStoreFactory(new FileDataStoreFactory(CREDENTIALS_FOLDER))
                 .setAccessType("offline").build();
-        System.out.println("3");
+
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
     }
 
     private GoogleServiceEntry getServices() throws IOException, GeneralSecurityException {
-        System.out.println("4");
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets sheets = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, GoogleAPI.SHEETS_SCOPES)).setApplicationName(APPLICATION_NAME).build();
-        Drive drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, GoogleAPI.DRIVE_SCOPES)).setApplicationName(APPLICATION_NAME).build();
-        System.out.println("5");
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Sheets sheets = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials).setApplicationName(APPLICATION_NAME).build();
+        Drive drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials).setApplicationName(APPLICATION_NAME).build();
         return new GoogleServiceEntry(drive, sheets);
     }
 }
