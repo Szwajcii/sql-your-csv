@@ -24,4 +24,4 @@
 - Bartosz Pyrz [Github profile](https://github.com/Czakero)
 - Dawid Grygier [Github profile](https://github.com/cyan0505)
 - Damian Szwajkos [Github profile](https://github.com/Szwajcii)
-- Tomek Pieczkowski [Github profile](
+- Tomek Pieczkowski [Github profile](https://github.com/Pieczkowski)
