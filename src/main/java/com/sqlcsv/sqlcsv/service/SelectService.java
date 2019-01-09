@@ -28,7 +28,7 @@ public class SelectService {
     }
 
     public List<String> selectWhere(String whereClause){
-        String wherePattern = "^(\\w+)\\s(\\w+)\\s(\\w+)\\s(.)?"; // column_name like wow
+        String wherePattern = "^(\\w+)\\s(\\w+)\\s(\\w+)\\s?(.)?"; // column_name like wow
         Pattern pattern = Pattern.compile(wherePattern);
         Matcher matcher = pattern.matcher(whereClause);
 
