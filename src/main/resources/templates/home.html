@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/bootstrap.css">
-    <link rel="stylesheet" href="../static/style.css">
-    <script type="application/javascript" src="../static/scripts.js"></script>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/javascript" src="scripts.js"></script>
     <title>SQL Your CSV!</title>
 </head>
 <body>
@@ -31,7 +31,7 @@
         <table id="filesTable" class="table table-bordered">
             <tbody>
             <tr>
-                <td>xyz.csv</td>
+                <td th:text="${entry}"></td>
                 <td>abc.csv</td>
             </tr>
             <tr>
