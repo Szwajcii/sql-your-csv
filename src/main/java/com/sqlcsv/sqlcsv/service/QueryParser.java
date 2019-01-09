@@ -73,4 +73,20 @@ public class QueryParser {
 
         return results;
     }
+
+
+    public void queryParserHandler(String s, Table table) {
+
+        List<String> query = parseQuerytoList(s);
+        List<String> columnsFromSelect = getColumnsFromSelect(query);
+        List<Integer> columnsIndexes = getColumnsIndexes(columnsFromSelect, table);
+        List<List<String>> result = getColumnsFromIndexes(columnsIndexes, table);
+
+
+        for(List<String> row : result) {
+            System.out.println(row.toString());
+        }
+
+    }
+
 }

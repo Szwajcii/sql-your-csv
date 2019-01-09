@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class CSVParser {
 
-    private String directoryPath = "/home/cyan/codecool/advance_java/repositories/sql-your-csv/src/main/resources/CSV_Files/";
+    private String directoryPath = "/home/szwajcii/Desktop/Java Advanced/TW_4/sql-your-csv/src/main/resources/CSV_Files/";
     private String csvSplitBy = ",";
     private String line;
     private Table CSVFile = new Table();
@@ -36,5 +36,10 @@ public class CSVParser {
 
     public static void main(String[] args) {
         Table lol = new CSVParser().parseCSVFile("playlist_song.csv");
+
+        QueryParser parser = new QueryParser();
+
+        parser.queryParserHandler("SELECT Title FROM playlist_song.csv", lol);
+
     }
 }
