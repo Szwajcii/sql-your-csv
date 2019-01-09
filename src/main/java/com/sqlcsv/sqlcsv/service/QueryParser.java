@@ -1,5 +1,7 @@
 package com.sqlcsv.sqlcsv.service;
 
+import com.sqlcsv.sqlcsv.model.Table;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +32,22 @@ public class QueryParser {
     }
 
 
+    public List<Integer> getColumnsIndexes(List<String> columns, Table table){
+
+        List<Integer> columnsIndexes = new ArrayList<>();
+
+        if(!columns.contains("*")) {
+            for (String column : columns) {
+                columnsIndexes.add(table.getRows().get(0).getData().indexOf(column));
+            }
+        } else {
+            for(String element : table.getRows().get(0).getData()) {
+                columnsIndexes.add(table.getRows().get(0).getData().indexOf(element));
+            }
+        }
+
+        return columnsIndexes;
+    }
 
 
 }
