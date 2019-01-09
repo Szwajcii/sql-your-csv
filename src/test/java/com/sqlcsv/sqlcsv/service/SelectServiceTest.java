@@ -33,4 +33,11 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testGetNoRowsWithComparingStrings() {
+        List<String> expected = new ArrayList<>();
+        String whereStatement = "city like Budapest";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
 }
