@@ -25,4 +25,12 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testGetOneRowWithComparingStringsThatIsInCSV() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String whereStatement = "city like Warszawa";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
 }
