@@ -78,6 +78,9 @@ public class QueryParser {
     public void queryParserHandler(String s, Table table) {
 
         List<String> query = parseQuerytoList(s);
+
+        String fileName = query.get(query.size() - 1);
+
         List<String> columnsFromSelect = getColumnsFromSelect(query);
         List<Integer> columnsIndexes = getColumnsIndexes(columnsFromSelect, table);
         List<List<String>> result = getColumnsFromIndexes(columnsIndexes, table);
@@ -88,5 +91,19 @@ public class QueryParser {
         }
 
     }
+
+
+    public String getFileName(List<String> query) {
+
+        String fileName = "";
+
+        for(int i = 0; i < query.size(); i++){
+            if(query.get(i).equalsIgnoreCase("FROM")){
+                fileName = query.get(i) + 1;
+            }
+        }
+        return fileName;
+    }
+
 
 }
