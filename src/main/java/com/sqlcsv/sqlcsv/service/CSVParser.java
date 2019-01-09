@@ -39,7 +39,7 @@ public class CSVParser {
 
         QueryParser parser = new QueryParser();
 
-        parser.queryParserHandler("SELECT Title FROM playlist_song.csv", lol);
+        parser.queryParserHandler("SELECT * FROM playlist_song.csv", lol);
 
     }
 }

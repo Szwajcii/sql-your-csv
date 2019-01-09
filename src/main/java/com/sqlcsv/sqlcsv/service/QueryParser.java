@@ -97,13 +97,24 @@ public class QueryParser {
 
         String fileName = "";
 
-        for(int i = 0; i < query.size(); i++){
-            if(query.get(i).equalsIgnoreCase("FROM")){
-                fileName = query.get(i) + 1;
+        for (String s : query) {
+            if (s.equalsIgnoreCase("FROM")) {
+                fileName = s + 1;
             }
         }
         return fileName;
     }
+
+
+    public List<String> getFilteredData(List<String> data, String query) {
+
+        List<String> result = new ArrayList<>();
+
+
+
+        return result;
+    }
+
 
 
 }
