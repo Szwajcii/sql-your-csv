@@ -1,6 +1,6 @@
 package com.sqlcsv.sqlcsv.service;
 
-import com.sqlcsv.sqlcsv.model.CSVFile;
+import com.sqlcsv.sqlcsv.model.Table;
 import com.sqlcsv.sqlcsv.model.Row;
 
 import java.io.BufferedReader;
@@ -13,9 +13,9 @@ public class CSVParser {
     private String directoryPath = "/home/cyan/codecool/advance_java/repositories/sql-your-csv/src/main/resources/CSV_Files/";
     private String csvSplitBy = ",";
     private String line;
-    private CSVFile CSVFile = new CSVFile();
+    private Table CSVFile = new Table();
 
-    public CSVFile parseCSVFile(String fileName){
+    public Table parseCSVFile(String fileName){
 
         try (BufferedReader br = new BufferedReader(new FileReader(directoryPath+fileName))) {
 
@@ -35,6 +35,6 @@ public class CSVParser {
     }
 
     public static void main(String[] args) {
-        CSVFile lol = new CSVParser().parseCSVFile("playlist_song.csv");
+        Table lol = new CSVParser().parseCSVFile("playlist_song.csv");
     }
 }

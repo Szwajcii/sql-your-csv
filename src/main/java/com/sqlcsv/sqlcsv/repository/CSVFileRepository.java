@@ -1,6 +1,6 @@
 package com.sqlcsv.sqlcsv.repository;
 
-import com.sqlcsv.sqlcsv.model.CSVFile;
+import com.sqlcsv.sqlcsv.model.Table;
 import com.sqlcsv.sqlcsv.service.CSVFileRepositoryPredicates;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
@@ -14,14 +14,14 @@ import java.util.Optional;
 @Repository
 public class CSVFileRepository implements CSVFileRepositoryInterface {
 
-    private List<CSVFile> files;
+    private List<Table> files;
 
     public CSVFileRepository() {
         this.files = new ArrayList<>();
     }
 
     @Override
-    public CSVFile save(CSVFile file) {
+    public Table save(Table file) {
        boolean found = files
                .stream()
                .anyMatch(x -> Objects.deepEquals(x, file));
@@ -33,7 +33,7 @@ public class CSVFileRepository implements CSVFileRepositoryInterface {
     }
 
     @Override
-    public Optional<CSVFile> getById(int id) {
+    public Optional<Table> getById(int id) {
 
         if (idIsNotInBound(files, id)) {
             return Optional.empty();
@@ -42,7 +42,7 @@ public class CSVFileRepository implements CSVFileRepositoryInterface {
     }
 
     @Override
-    public List<CSVFile> getAll() {
+    public List<Table> getAll() {
         return files;
     }
 
@@ -56,11 +56,11 @@ public class CSVFileRepository implements CSVFileRepositoryInterface {
     }
 
     @Override
-    public List<CSVFile> findByName(String name) {
+    public List<Table> findByName(String name) {
         return CSVFileRepositoryPredicates.filterCSVFiles(files, CSVFileRepositoryPredicates.isSameName(name));
     }
 
-    private boolean idIsNotInBound(List<CSVFile> files, int id) {
+    private boolean idIsNotInBound(List<Table> files, int id) {
         return id < 0 || id >= files.size();
     }
 }

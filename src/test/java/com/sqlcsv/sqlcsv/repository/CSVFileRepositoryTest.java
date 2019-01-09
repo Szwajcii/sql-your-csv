@@ -1,6 +1,6 @@
 package com.sqlcsv.sqlcsv.repository;
 
-import com.sqlcsv.sqlcsv.model.CSVFile;
+import com.sqlcsv.sqlcsv.model.Table;
 import com.sqlcsv.sqlcsv.model.Row;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +26,11 @@ class CSVFileRepositoryTest {
         Row entityRow = new Row(entityData);
         csvFileData.add(columnRow);
         csvFileData.add(entityRow);
-        CSVFile newFile = new CSVFile("testFile.csv", csvFileData);
+        Table newFile = new Table("testFile.csv", csvFileData);
 
         repo.save(newFile);
         assertTrue(repo.getById(0).isPresent());
-        CSVFile savedFile = repo.getById(0).get();
+        Table savedFile = repo.getById(0).get();
 
         assertEquals(newFile, savedFile);
     }

@@ -1,15 +1,15 @@
 package com.sqlcsv.sqlcsv.repository;
 
-import com.sqlcsv.sqlcsv.model.CSVFile;
+import com.sqlcsv.sqlcsv.model.Table;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CSVFileRepositoryInterface {
-    CSVFile save(CSVFile file);
-    Optional<CSVFile> getById(int id);
-    List<CSVFile> getAll();
+    Table save(Table file);
+    Optional<Table> getById(int id);
+    List<Table> getAll();
     boolean deleteById(int id);
-    List<CSVFile> findByName(String name);
+    List<Table> findByName(String name);
 
 }

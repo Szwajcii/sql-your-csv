@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class CSVFile {
+public class Table {
     private String name;
     private List<Row> rows = new ArrayList<>();
 }
