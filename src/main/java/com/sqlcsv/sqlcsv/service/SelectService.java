@@ -76,7 +76,7 @@ public class SelectService {
 
         StringBuilder b = new StringBuilder();
 
-        ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
+        ArrayList<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
 
         int whereIndex = queryList.indexOf("WHERE");
 
@@ -88,20 +88,20 @@ public class SelectService {
 
     private List<String> getWhereWithOrAndClauseFromQuery(String query){
 
-        List<String> clouseList = new ArrayList<>();
+        List<String> clauseList = new ArrayList<>();
         StringBuilder b = new StringBuilder();
 
-        ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
+        ArrayList<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
 
         int whereIndex = queryList.indexOf("WHERE");
 
         if(queryList.contains("OR")) {
-            clouseList.add("OR");
+            clauseList.add("OR");
             addClauseToList(b, queryList, whereIndex);
         }
 
         if(queryList.contains("AND")) {
-            clouseList.add("AND");
+            clauseList.add("AND");
             addClauseToList(b, queryList, whereIndex);
         }
 
