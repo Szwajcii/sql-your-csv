@@ -66,9 +66,26 @@ public class SelectService {
     private boolean isConditionTrue(String valueFromTable, String operation, String condition) {
         boolean result = false;
 
-        if (operation.equals("like")) {
-            result = valueFromTable.equals(condition);
+
+        switch(operation) {
+
+            case "like":
+                result = isElementLike(valueFromTable, condition);
+                break;
+            case ">":
+                result = isElementBigger(valueFromTable, condition);
+                break;
+            case "<":
+                result = isElementSmaller(valueFromTable, condition);
+                break;
+            case "=":
+                result = isElementEqual(valueFromTable, condition);
+                break;
+            case "<>":
+                result = isNotEqual(valueFromTable, condition);
+                break;
         }
+
         return result;
     }
 
@@ -87,5 +104,32 @@ public class SelectService {
         return columnsName;
     }
 
+
+    private boolean isElementSmaller(String valueFromTable, String condition) {
+        return Integer.valueOf(valueFromTable) < Integer.valueOf(condition);
+    }
+
+    private boolean isElementBigger(String valueFromTable, String condition) {
+        return Integer.valueOf(valueFromTable) > Integer.valueOf(condition);
+    }
+
+    private boolean isElementEqual(String valueFromTable, String condition) {
+        return valueFromTable.equalsIgnoreCase(condition);
+    }
+
+    private boolean isNotEqual(String valueFromTable, String condition) {
+        return !valueFromTable.equalsIgnoreCase(condition);
+    }
+
+    private boolean isElementLike(String valueFromTable, String condition) {
+
+        if(condition.startsWith("%")) { // '%lalala'
+            return valueFromTable.equals(valueFromTable.endsWith(condition.substring(1, condition.length())));
+        } else if (condition.endsWith("%")) { // 'lalala%'
+            return valueFromTable.equals(valueFromTable.startsWith(condition.substring(0, condition.length() - 1)));
+        }
+
+        return false;
+    }
 
 }
