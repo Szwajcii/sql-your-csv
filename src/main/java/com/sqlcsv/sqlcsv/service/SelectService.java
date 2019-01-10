@@ -12,12 +12,11 @@ import java.util.stream.Stream;
 
 public class SelectService {
     private String fileName;
-
     private WherePatternChecker patternChecker;
 
-    public SelectService(String filename, String inputPattern){
+    public SelectService(String filename){
         this.fileName = filename;
-        patternChecker = new WherePatternChecker(inputPattern);
+        patternChecker = new WherePatternChecker();
     }
 
     public List<String> readHeaders(){
@@ -29,7 +28,8 @@ public class SelectService {
         return new ArrayList<>();
     }
 
-    public List<String> evaluateWhereCondition(){
+    public List<String> evaluateWhereCondition(String inputPattern){
+        patternChecker.setInputPattern(inputPattern);
         try(Stream<String> stream = Files.lines(Paths.get(fileName))){
             return stream.skip(1).filter(getPredicates()).collect(Collectors.toList());
         } catch (IOException e) {
@@ -63,7 +63,6 @@ public class SelectService {
         } else
             return predicate1.and(predicate2);
     }
-
 
     private Integer getIndex(String columnName){
         List<String> headers = readHeaders();
