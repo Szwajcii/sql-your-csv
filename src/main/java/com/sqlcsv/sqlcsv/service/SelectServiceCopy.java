@@ -12,11 +12,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SelectService {
+public class SelectServiceCopy {
+
     private String fileName;
 
-    public SelectService(String filename){
-        this.fileName = filename;
+    public SelectServiceCopy(String fileName) {
+        this.fileName = fileName;
     }
 
     public List<String> readHeaders(){
@@ -64,106 +65,18 @@ public class SelectService {
         return stream.skip(1).filter(s -> isConditionTrue(s.split(",")[index], operation, condition));
     }
 
-    private boolean isConditionTrue(String valueFromTable, String operation, String condition) {
-        boolean result = false;
-
-        switch(operation) {
-
-            case "like":
-                result = isElementLike(valueFromTable, condition);
-                break;
-            case ">":
-                result = isElementBigger(valueFromTable, condition);
-                break;
-            case "<":
-                result = isElementSmaller(valueFromTable, condition);
-                break;
-            case "=":
-                result = isElementEqual(valueFromTable, condition);
-                break;
-            case "<>":
-                result = isNotEqual(valueFromTable, condition);
-                break;
-        }
-
-        return result;
-    }
-
-    private List<String> getColumnsToSearch(String query) {
-
-        List<String> columnsName = new ArrayList<>();
-
-        String[] queryArray = query.split(" ");
-
-        for(int i = 1; i < queryArray.length; i++){
-            if(!queryArray[i].equalsIgnoreCase("FROM")) {
-                columnsName.add(queryArray[i]);
-            }
-        }
-
-        return columnsName;
-    }
-
-
-    private boolean isElementSmaller(String valueFromTable, String condition) {
-        return Integer.valueOf(valueFromTable) < Integer.valueOf(condition);
-    }
-
-    private boolean isElementBigger(String valueFromTable, String condition) {
-        return Integer.valueOf(valueFromTable) > Integer.valueOf(condition);
-    }
-
-    private boolean isElementEqual(String valueFromTable, String condition) {
-        return valueFromTable.equalsIgnoreCase(condition);
-    }
-
-    private boolean isNotEqual(String valueFromTable, String condition) {
-        return !valueFromTable.equalsIgnoreCase(condition);
-    }
-
-    private boolean isElementLike(String valueFromTable, String condition) {
-
-        if(condition.startsWith("%")) { // '%szawa'
-            return valueFromTable.endsWith(condition.substring(1, condition.length()));
-        } else if (condition.endsWith("%")) { // 'War%'
-            return valueFromTable.startsWith(condition.substring(0, condition.length() - 1));
-        }
-
-        return false;
-    }
-
-    // SELECT fName FROM file WHERE fName = "" AND lName = "";
-
-    // whereClause = fName = "" AND lName = ""
-
-    //   s -> s.length() < 5;
-
-    // predicates.add(predicate);
-
-    //
-
-
-    private List<Predicate> getPredicatesFromQuery(String whereClause) {
+    private List<Predicate> getPredicatesFromQuery(List<String[]> conditionList) {
         List<Predicate> predicateList = new ArrayList<>();
 
-        String wherePattern = "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*)"; // column_name like wow
-        Pattern pattern = Pattern.compile(wherePattern);
-        Matcher matcher = pattern.matcher(whereClause);
-
-        if (matcher.find()) {
-            String columnName = matcher.group(1);
-            String operation = matcher.group(2);
-            String condition = matcher.group(3);
-
-//            Integer index = getIndex(columnName);
+        for(int i = 0; i < conditionList.size(); i++){
 
             switch (operation) {
                 case "like":
                     Predicate<String> predicateLike = p -> {
-                        if(condition.startsWith("%")) { // '%szawa'
-                             return p.endsWith(condition.substring(1, condition.length()));
+                        if(conditionList.get(i)[3].startsWith("%")) { // '%szawa'
+                            return p.endsWith(condition.substring(1, condition.length()));
                         } else if (condition.endsWith("%")) { // 'War%'
-                             return p.startsWith(condition.substring(0, condition.length() - 1));
+                            return p.startsWith(condition.substring(0, condition.length() - 1));
                         } else { // 'Warszawa'
                             return p.equals(condition);
                         }
@@ -186,12 +99,12 @@ public class SelectService {
                     Predicate<String> predicateNotEquals = p -> !p.equals(condition);
                     predicateList.add(predicateNotEquals);
                     break;
+
             }
 
         }
+
         return null;
-
     }
-
 
 }
