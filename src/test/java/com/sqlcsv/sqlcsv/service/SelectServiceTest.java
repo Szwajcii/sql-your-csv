@@ -66,4 +66,12 @@ class SelectServiceTest {
 
     }
 
+    @Test
+    void testGetSmallerElementsThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Bob,Ross,40,New York", "Jack,Daniels,18,London", "Adam,Małysz,40,Wisła", "Sam,Samotny,22,Warszawa"));
+        String whereStatement = "age < 50";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
 }
