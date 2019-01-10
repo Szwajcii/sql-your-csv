@@ -1,5 +1,7 @@
 package com.sqlcsv.sqlcsv.controller.exception;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.sqlcsv.sqlcsv.google.GoogleAuthorizationFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,23 +39,21 @@ public class OneToRuleThemAllController {
         return "home";
     }
 
-    @GetMapping("/test")
-    public String dog() {
-        return "dupa";
-    }
-
     @GetMapping("/callback")
     public void getToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String code = request.getParameter("code");
-        System.out.println("kurwa chuj");
-        googleAuthorizationFlow.getFlow()
+        GoogleAuthorizationCodeTokenRequest query = googleAuthorizationFlow.getFlow()
                 .newTokenRequest(code)
-                .setRedirectUri("http://localhost:8080/home").execute();
+                .setRedirectUri("http://localhost:8080/callback")
+                .setClientAuthentication(googleAuthorizationFlow.getFlow().getClientAuthentication())
+                .setCode(code)
+                .set("response-type", "code")
+                .setGrantType("authorization_code");
 
-//        createApiClients(tokenResponse);
-//        response.sendRedirect("http://localhost");
-//
-//        return null;
+        TokenResponse tokenResponse = query.execute();
+        googleAuthorizationFlow.getFlow().createAndStoreCredential(tokenResponse,"user");
+        response.sendRedirect("http://localhost:8080/home");
+
     }
 
 

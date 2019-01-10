@@ -9,9 +9,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import lombok.Getter;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,7 +40,7 @@ public class GoogleAuthorizationFlow {
                 .setAccessType("offline").setApprovalPrompt("force").build();
     }
 
-    private GoogleClientSecrets getClientSecrets() throws IOException {
+    private static GoogleClientSecrets getClientSecrets() throws IOException {
         java.io.File clientSecretFile = new java.io.File(CREDENTIALS_FOLDER, CLIENT_SECRET_FILE_NAME);
         InputStream clientSecretInputStream = new FileInputStream(clientSecretFile);
         return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(clientSecretInputStream));
