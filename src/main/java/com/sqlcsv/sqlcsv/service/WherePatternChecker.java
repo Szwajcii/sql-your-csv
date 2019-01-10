@@ -12,10 +12,9 @@ public class WherePatternChecker {
     private String condition;
     private String linkingOperator;
 
-    WherePatternChecker(String inputPattern){
+    public void setInputPattern(String inputPattern){
         matcher = pattern.matcher(inputPattern);
     }
-
 
     public String getColumnName() {
         return columnName;
@@ -42,7 +41,6 @@ public class WherePatternChecker {
     public boolean hasAdditionalConditions(){
         return linkingOperator != null;
     }
-
 
     public String getNextLinkingOperator() {
         return linkingOperator;
