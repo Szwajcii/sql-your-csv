@@ -94,5 +94,37 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testGetElementLikeGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String statement = "city like Warszawa";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetElementWhereAgeIsGreaterThan18AndLowerThan40() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Sam,Samotny,22,Warszawa"));
+        String statement = "age > 18 and age < 40";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetElementWhereAgeEquals18OrAgeEquals22() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Jack,Daniels,18,London","Sam,Samotny,22,Warszawa"));
+        String statement = "age = 18 or age = 22";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void testGetElementLikeGivenAndGreaterThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String statement = "city like %szawa and age > 18";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
 
 }
