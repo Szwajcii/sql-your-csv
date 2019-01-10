@@ -22,7 +22,6 @@ import java.util.List;
 
 @Component
 @Getter
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class GoogleAuthorizationFlow {
 
     private static final String APPLICATION_NAME = "sqlyourcsv";
