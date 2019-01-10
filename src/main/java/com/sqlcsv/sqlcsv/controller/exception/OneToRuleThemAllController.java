@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class OneToRuleThemAllController {
@@ -36,10 +37,24 @@ public class OneToRuleThemAllController {
         return "home";
     }
 
-    @GetMapping("/callback")
-    public String getToken(HttpServletRequest request) {
-        String code = request.getParameter("code");
-        System.out.println(code);
-        return "home";
+    @GetMapping("/test")
+    public String dog() {
+        return "dupa";
     }
+
+    @GetMapping("/callback")
+    public void getToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String code = request.getParameter("code");
+        System.out.println("kurwa chuj");
+        googleAuthorizationFlow.getFlow()
+                .newTokenRequest(code)
+                .setRedirectUri("http://localhost:8080/home").execute();
+
+//        createApiClients(tokenResponse);
+//        response.sendRedirect("http://localhost");
+//
+//        return null;
+    }
+
+
 }
