@@ -6,16 +6,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SelectService {
     private String fileName;
+    private WherePatternChecker patternChecker;
 
     public SelectService(String filename){
         this.fileName = filename;
+        patternChecker = new WherePatternChecker();
     }
 
     public List<String> readHeaders(){
@@ -32,11 +32,11 @@ public class SelectService {
         Pattern pattern = Pattern.compile(wherePattern);
         Matcher matcher = pattern.matcher(whereClause);
 
-        if (matcher.find()) {
-            String columnName = matcher.group(1);
-            String operation = matcher.group(2);
-            String condition = matcher.group(3);
-
+    public Stream<String> selectWhere(String whereClause, Stream<String> contents){
+        if (patternChecker.evaluatePattern(whereClause)){
+            String columnName = patternChecker.getColumnName();
+            String operation = patternChecker.getOperator();
+            String condition = patternChecker.getCondition();
             Integer index = getIndex(columnName);
 
             if (index != null) {
