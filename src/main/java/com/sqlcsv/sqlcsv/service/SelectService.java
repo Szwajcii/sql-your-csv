@@ -71,4 +71,51 @@ public class SelectService {
         }
         return result;
     }
+
+    private String getWhereClauseFromQuery(String query){
+
+        StringBuilder b = new StringBuilder();
+
+        ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
+
+        int whereIndex = queryList.indexOf("WHERE");
+
+        for(int i = whereIndex+1; i < queryList.size(); i++){
+            b.append(queryList.get(i));
+        }
+        return b.toString();
+    }
+
+    private List<String> getWhereWithOrAndClauseFromQuery(String query){
+
+        List<String> clouseList = new ArrayList<>();
+        StringBuilder b = new StringBuilder();
+
+        ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
+
+        int whereIndex = queryList.indexOf("WHERE");
+
+        if(queryList.contains("OR")) {
+            clouseList.add("OR");
+            addClauseToList(b, queryList, whereIndex);
+        }
+
+        if(queryList.contains("AND")) {
+            clouseList.add("AND");
+            addClauseToList(b, queryList, whereIndex);
+        }
+
+        return queryList;
+    }
+
+    private void addClauseToList(StringBuilder b, ArrayList<String> queryList, int whereIndex) {
+        for (int i = whereIndex + 1; i < queryList.size(); i++) {
+            if (!queryList.get(i).equals("OR"))
+                b.append(queryList.get(i));
+            else {
+                queryList.add(b.toString());
+                b = new StringBuilder();
+            }
+        }
+    }
 }
