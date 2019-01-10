@@ -8,7 +8,12 @@ public class WherePatternChecker {
     private String columnName;
     private String operator;
     private String condition;
-    private String additionalConditions;
+    private String linkingOperator;
+
+    WherePatternChecker(String inputPattern){
+        matcher = pattern.matcher(inputPattern);
+    }
+
 
     public String getColumnName() {
         return columnName;
@@ -21,29 +26,23 @@ public class WherePatternChecker {
         return condition;
     }
 
-    public String getAdditionalConditions() {
-        return additionalConditions;
-    }
-
-    public boolean evaluatePattern(String inputPattern) {
-        Pattern pattern = Pattern.compile(SINGLEWHEREPATTERN);
-        Matcher matcher = pattern.matcher(inputPattern);
-        if (matcher.matches()) {
+    public boolean evaluatePattern() {
+        if (matcher.find()) {
             columnName = matcher.group(1);
             operator = matcher.group(2);
             condition = matcher.group(3);
-            additionalConditions = matcher.group(4);
+            linkingOperator = matcher.group(4);
             return true;
         }
         return false;
     }
 
     public boolean hasAdditionalConditions(){
-        return !additionalConditions.isEmpty();
+        return linkingOperator != null;
     }
 
-    //TODO
+
     public String getNextLinkingOperator() {
-        return "AND";
+        return linkingOperator;
     }
 }
