@@ -80,7 +80,22 @@ public class SelectService {
 
     private Predicate<String> choosePredicate(String operation, String condition) {
         if (operation.equals("like")) {
+            return s -> { if(condition.startsWith("%")) { // '%szawa'
+                    return s.endsWith(condition.substring(1, condition.length()));
+                } else if (condition.endsWith("%")) { // 'War%'
+                    return s.startsWith(condition.substring(0, condition.length() - 1));
+                } else { // 'Warszawa'
+                    return s.equals(condition);
+                }
+            };
+        } else if (operation.equals(">")) {
+            return s -> Integer.valueOf(s) > Integer.valueOf(condition);
+        } else if (operation.equals("<")) {
+            return s -> Integer.valueOf(s) < Integer.valueOf(condition);
+        } else if (operation.equals("=")) {
             return s -> s.equals(condition);
+        } else if (operation.equals("<>")) {
+            return s -> !s.equals(condition);
         }
         return null;
     }
