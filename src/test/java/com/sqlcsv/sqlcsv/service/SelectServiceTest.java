@@ -29,7 +29,7 @@ class SelectServiceTest {
     void testGetOneRowWithComparingStringsThatIsInCSV() {
         List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
         String whereStatement = "city like Warszawa";
-        List<String> result = selectService.selectWhere(whereStatement);
+        List<String> result = selectService.evaluateWhereCondition(whereStatement);
         assertEquals(expected, result);
     }
 
@@ -37,7 +37,7 @@ class SelectServiceTest {
     void testGetNoRowsWithComparingStrings() {
         List<String> expected = new ArrayList<>();
         String whereStatement = "city like Budapest";
-        List<String> result = selectService.selectWhere(whereStatement);
+        List<String> result = selectService.evaluateWhereCondition(whereStatement);
         assertEquals(expected, result);
     }
 }
