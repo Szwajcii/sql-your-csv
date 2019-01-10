@@ -127,4 +127,12 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testGetElementLikeGivenAndGreaterThanGivenAndWithGivenLastName() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa"));
+        String statement = "city like %szawa and age > 18 and last_name like %wczyk";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
 }
