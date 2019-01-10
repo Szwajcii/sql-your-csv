@@ -27,12 +27,16 @@ public class SelectService {
         return new ArrayList<>();
     }
 
-    public List<String> selectWhere(String whereClause){
-        String wherePattern = "^(\\w+)\\s(\\w+)\\s(\\w+)\\s?(.)?"; // column_name like wow
-        Pattern pattern = Pattern.compile(wherePattern);
-        Matcher matcher = pattern.matcher(whereClause);
+    public List<String> evaluateWhereCondition(String whereClause){
+        try(Stream<String> stream = Files.lines(Paths.get(fileName))){
+            return selectWhere(whereClause, stream).collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
 
-    public Stream<String> selectWhere(String whereClause, Stream<String> contents){
+    private Stream<String> selectWhere(String whereClause, Stream<String> contents){
         if (patternChecker.evaluatePattern(whereClause)){
             String columnName = patternChecker.getColumnName();
             String operation = patternChecker.getOperator();
