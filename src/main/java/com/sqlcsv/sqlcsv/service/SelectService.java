@@ -71,4 +71,21 @@ public class SelectService {
         }
         return result;
     }
+
+    private List<String> getColumnsToSearch(String query) {
+
+        List<String> columnsName = new ArrayList<>();
+
+        String[] queryArray = query.split(" ");
+
+        for(int i = 1; i < queryArray.length; i++){
+            if(!queryArray[i].equalsIgnoreCase("FROM")) {
+                columnsName.add(queryArray[i]);
+            }
+        }
+
+        return columnsName;
+    }
+
+
 }
