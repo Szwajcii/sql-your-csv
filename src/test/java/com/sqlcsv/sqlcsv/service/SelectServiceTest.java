@@ -40,4 +40,30 @@ class SelectServiceTest {
         List<String> result = selectService.selectWhere(whereStatement);
         assertEquals(expected, result);
     }
+
+    @Test
+    void testGetElementsWhichStartsSimilarly() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String whereStatement = "city like %szawa";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetElementsWhichEndsSimilarly() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String whereStatement = "city like War%";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetBiggerElementThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Adam,Mickiewicz,60,Paryż","Krzysztof,Krawczyk,60,Warszawa"));
+        String whereStatement = "age > 50";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+
+    }
+
 }

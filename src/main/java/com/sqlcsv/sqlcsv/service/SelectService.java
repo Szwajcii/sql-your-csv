@@ -28,7 +28,7 @@ public class SelectService {
     }
 
     public List<String> selectWhere(String whereClause){
-        String wherePattern = "^(\\w+)\\s(\\w+)\\s(\\w+)\\s?(.)?"; // column_name like wow
+        String wherePattern = "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*)"; // column_name like wow
         Pattern pattern = Pattern.compile(wherePattern);
         Matcher matcher = pattern.matcher(whereClause);
 
@@ -123,10 +123,10 @@ public class SelectService {
 
     private boolean isElementLike(String valueFromTable, String condition) {
 
-        if(condition.startsWith("%")) { // '%lalala'
-            return valueFromTable.equals(valueFromTable.endsWith(condition.substring(1, condition.length())));
-        } else if (condition.endsWith("%")) { // 'lalala%'
-            return valueFromTable.equals(valueFromTable.startsWith(condition.substring(0, condition.length() - 1)));
+        if(condition.startsWith("%")) { // '%szawa'
+            return valueFromTable.endsWith(condition.substring(1, condition.length()));
+        } else if (condition.endsWith("%")) { // 'War%'
+            return valueFromTable.startsWith(condition.substring(0, condition.length() - 1));
         }
 
         return false;
