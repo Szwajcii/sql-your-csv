@@ -74,4 +74,24 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testGetTheSameElementsAsGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa"));
+        String whereStatement = "last_name = Krawczyk";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetDifferentElementsThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Bob,Ross,40,New York",
+                                                                "Jack,Daniels,18,London",
+                                                                "Adam,Małysz,40,Wisła",
+                                                                "Adam,Mickiewicz,60,Paryż",
+                                                                "Sam,Samotny,22,Warszawa"));
+        String whereStatement = "last_name <> Krawczyk";
+        List<String> result = selectService.selectWhere(whereStatement);
+        assertEquals(expected, result);
+    }
+
 }
