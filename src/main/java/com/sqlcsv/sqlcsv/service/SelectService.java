@@ -6,16 +6,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SelectService {
     private String fileName;
+
     private WherePatternChecker patternChecker;
 
-    public SelectService(String filename){
+    public SelectService(String filename, String inputPattern){
         this.fileName = filename;
-        patternChecker = new WherePatternChecker();
+        patternChecker = new WherePatternChecker(inputPattern);
     }
 
     public List<String> readHeaders(){
@@ -27,32 +29,41 @@ public class SelectService {
         return new ArrayList<>();
     }
 
-    public List<String> evaluateWhereCondition(String whereClause){
+    public List<String> evaluateWhereCondition(){
         try(Stream<String> stream = Files.lines(Paths.get(fileName))){
-            return selectWhere(whereClause, stream).collect(Collectors.toList());
+            return stream.skip(1).filter(getPredicates()).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
     }
 
-    private Stream<String> selectWhere(String whereClause, Stream<String> contents){
-        if (patternChecker.evaluatePattern(whereClause)){
+    private Predicate<String> getPredicates(){
+        if (patternChecker.evaluatePattern()){
             String columnName = patternChecker.getColumnName();
             String operation = patternChecker.getOperator();
             String condition = patternChecker.getCondition();
             Integer index = getIndex(columnName);
 
             if (index != null) {
-                try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-                    return filterStream(stream, index, operation, condition).collect(Collectors.toList());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Predicate<String> predicate = buildPredicate(index, operation, condition);
+                if (patternChecker.hasAdditionalConditions()){
+                    String linkingOperator = patternChecker.getNextLinkingOperator();
+                    return joinPredicates(predicate, getPredicates(), linkingOperator);
+                } else
+                    return predicate;
             }
         }
         return null;
     }
+
+    private Predicate<String> joinPredicates(Predicate<String> predicate1, Predicate<String> predicate2, String operator){
+        if (operator.equalsIgnoreCase("or")){
+            return predicate1.or(predicate2);
+        } else
+            return predicate1.and(predicate2);
+    }
+
 
     private Integer getIndex(String columnName){
         List<String> headers = readHeaders();
@@ -63,16 +74,14 @@ public class SelectService {
         return null;
     }
 
-    private Stream<String> filterStream(Stream<String> stream, Integer index, String operation, String condition) {
-        return stream.skip(1).filter(s -> isConditionTrue(s.split(",")[index], operation, condition));
+    private Predicate<String> buildPredicate(Integer index, String operation, String condition) {
+        return s -> choosePredicate(operation, condition).test(s.split(",")[index]);
     }
 
-    private boolean isConditionTrue(String valueFromTable, String operation, String condition) {
-        boolean result = false;
-
+    private Predicate<String> choosePredicate(String operation, String condition) {
         if (operation.equals("like")) {
-            result = valueFromTable.equals(condition);
+            return s -> s.equals(condition);
         }
-        return result;
+        return null;
     }
 }
