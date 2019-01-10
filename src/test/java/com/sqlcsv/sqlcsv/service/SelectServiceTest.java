@@ -40,4 +40,59 @@ class SelectServiceTest {
         List<String> result = selectService.evaluateWhereCondition(whereStatement);
         assertEquals(expected, result);
     }
+
+    @Test
+    void testGetElementsWhichStartsSimilarly() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String statement = "city like %szawa";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetElementsWhichEndsSimilarly() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa", "Sam,Samotny,22,Warszawa"));
+        String statement = "city like War%";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetBiggerElementThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Adam,Mickiewicz,60,Paryż","Krzysztof,Krawczyk,60,Warszawa"));
+        String statement = "age > 50";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void testGetSmallerElementsThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Bob,Ross,40,New York", "Jack,Daniels,18,London", "Adam,Małysz,40,Wisła", "Sam,Samotny,22,Warszawa"));
+        String statement = "age < 50";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetTheSameElementsAsGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Krzysztof,Krawczyk,60,Warszawa"));
+        String statement = "last_name = Krawczyk";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetDifferentElementsThanGiven() {
+        List<String> expected = new ArrayList<> (Arrays.asList("Bob,Ross,40,New York",
+                "Jack,Daniels,18,London",
+                "Adam,Małysz,40,Wisła",
+                "Adam,Mickiewicz,60,Paryż",
+                "Sam,Samotny,22,Warszawa"));
+        String statement = "last_name <> Krawczyk";
+        List<String> result = selectService.evaluateWhereCondition(statement);
+        assertEquals(expected, result);
+    }
+
+
 }
