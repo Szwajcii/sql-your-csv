@@ -4,7 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WherePatternChecker {
-    private final String SINGLEWHEREPATTERN = "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*)";
+    private final String SINGLEWHEREPATTERN = "(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(or|and)?\\s*";
+    Pattern pattern = Pattern.compile(SINGLEWHEREPATTERN);
+    Matcher matcher;
     private String columnName;
     private String operator;
     private String condition;
