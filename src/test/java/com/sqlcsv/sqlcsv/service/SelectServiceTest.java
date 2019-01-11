@@ -135,4 +135,19 @@ class SelectServiceTest {
         assertEquals(expected, result);
     }
 
+
+    @Test
+    void testGetElementsFromSelectStatement() {
+
+        List<String> expected = new ArrayList<>(Arrays.asList("Krzysztof,Krawczyk"));
+        String query = "SELECT first_name, last_name FROM test.csv WHERE city like %szawa and last_name like %wczyk";
+
+        String statement = selectService.getWhereCondition(query);
+
+        List<String> result = selectService.evaluateQuery(selectService.evaluateWhereCondition(statement));
+        assertEquals(expected, result);
+    }
+
+
+
 }

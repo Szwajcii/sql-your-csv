@@ -98,4 +98,44 @@ public class SelectService {
         }
         return null;
     }
+
+
+    public String getWhereCondition(String query) {
+
+        StringBuilder sb = new StringBuilder();
+        List<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
+        int whereIndex = queryList.indexOf("WHERE");
+        for(int i = whereIndex + 1; i < queryList.size(); i++){
+            sb.append(i);
+        }
+        return sb.toString();
+    }
+
+
+    public List<String> evaluateQuery(List<String> rowList) {
+        List<String> headers = readHeaders();
+
+        return rowList.stream().flatMap(s -> {
+                      String[] arr = s.split(",");
+                      List<String> result = new ArrayList<>();
+
+        });
+
+    }
+
+
+    public List<String> getColumnNamesToSearch(String query) {
+
+        List<String> columnsNames = new ArrayList<>();
+        query = query.replaceAll(",", "");
+        String[] queryArray = query.split(" ");
+        for(int i = 1; i < queryArray.length; i++) {
+            if(!queryArray[i].equalsIgnoreCase("FROM")) {
+                columnsNames.add(queryArray[i]);
+            }
+        }
+        return columnsNames;
+    }
+
+
 }
