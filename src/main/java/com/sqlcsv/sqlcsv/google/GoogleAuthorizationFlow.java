@@ -27,7 +27,7 @@ public class GoogleAuthorizationFlow {
 
     private static final String APPLICATION_NAME = "sqlyourcsv";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final java.io.File CREDENTIALS_FOLDER = new java.io.File("/home/bartosz/Codecool/Advanced/sql-your-csv/src/main/resources");
+    private static final java.io.File CREDENTIALS_FOLDER = new java.io.File("src/main/resources");
     private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
     private static final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE_READONLY, SheetsScopes.SPREADSHEETS_READONLY);
     private static GoogleAuthorizationCodeFlow flow;
