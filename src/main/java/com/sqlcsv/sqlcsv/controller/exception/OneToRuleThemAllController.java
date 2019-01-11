@@ -40,9 +40,11 @@ public class OneToRuleThemAllController {
     @GetMapping("/home")
     public String doGet(Model model) throws IOException, GeneralSecurityException {
         Map<String, String> spreadsheets = spreadsheetsService.getAllSpreadsheets();
-        System.out.println(spreadsheets);
-        model.addAttribute("spreadsheets", spreadsheets);
-        return "choosePage";
+        for (String key : spreadsheets.keySet()) {
+            System.out.println("Spreadsheet name: " + key + " " + "Spreadsheet ID: " + spreadsheets.get(key));
+        }
+//        model.addAttribute("spreadsheets", spreadsheets);
+        return "home";
     }
 
     @GetMapping("/callback")
