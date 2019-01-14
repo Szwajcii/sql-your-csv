@@ -1,10 +1,11 @@
-package com.sqlcsv.sqlcsv.controller.exception;
+package com.sqlcsv.sqlcsv.controller;
 
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.sqlcsv.sqlcsv.google.GoogleAuthorizationFlow;
-import com.sqlcsv.sqlcsv.service.SpreadsheetsService;
+import com.sqlcsv.sqlcsv.service.DriveService;
+import com.sqlcsv.sqlcsv.service.SheetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,39 +18,46 @@ import java.security.GeneralSecurityException;
 import java.util.Map;
 
 @Controller
-public class OneToRuleThemAllController {
-    private SpreadsheetsService spreadsheetsService;
+public class WebController {
+    private DriveService driveService;
+    private SheetsService sheetsService;
 
     @Autowired
-    public OneToRuleThemAllController(SpreadsheetsService spreadsheetsService) {
-        this.spreadsheetsService = spreadsheetsService;
+    public WebController(DriveService driveService, SheetsService sheetsService) {
+        this.sheetsService = sheetsService;
+        this.driveService = driveService;
     }
 
 
     @GetMapping("/")
-    public void getAuth(HttpServletResponse response) throws IOException, GeneralSecurityException {
+    public void getAuthPage(HttpServletResponse response) throws IOException, GeneralSecurityException {
         String url = GoogleAuthorizationFlow.getNewFlow().newAuthorizationUrl()
                 .setRedirectUri("http://localhost:8080/callback")
                 .build();
-        try {
-            response.sendRedirect(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect(url);
     }
     @GetMapping("/home")
     public String doGet(Model model) throws IOException, GeneralSecurityException {
-        Map<String, String> spreadsheets = spreadsheetsService.getAllSpreadsheets();
-        for (String key : spreadsheets.keySet()) {
-            System.out.println("Spreadsheet name: " + key + " " + "Spreadsheet ID: " + spreadsheets.get(key));
-        }
+
 //        model.addAttribute("spreadsheets", spreadsheets);
         return "home";
+    }
+    @GetMapping("/choose")
+    public String getChoosePage(Model model) throws IOException, GeneralSecurityException {
+        Map<String, String> spreadsheets = driveService.getAllSpreadsheets();
+        model.addAttribute("spreadsheets", spreadsheets);
+        return "choosePage";
     }
 
     @GetMapping("/callback")
     public void getToken(HttpServletRequest request, HttpServletResponse response) throws IOException, GeneralSecurityException {
         String code = request.getParameter("code");
+        authorizeAndSaveToken(code);
+        response.sendRedirect("http://localhost:8080/choose");
+
+    }
+
+    private void authorizeAndSaveToken(String code) throws IOException, GeneralSecurityException {
         GoogleAuthorizationCodeFlow flow = GoogleAuthorizationFlow.getNewFlow();
         GoogleAuthorizationCodeTokenRequest query = flow
                 .newTokenRequest(code)
@@ -61,8 +69,6 @@ public class OneToRuleThemAllController {
 
         TokenResponse tokenResponse = query.execute();
         flow.createAndStoreCredential(tokenResponse,"user");
-        response.sendRedirect("http://localhost:8080/home");
-
     }
 
 
