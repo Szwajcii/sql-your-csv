@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class SpreadsheetsService {
+public class DriveService implements IDriveService {
     public Map<String, String> getAllSpreadsheets() throws IOException, GeneralSecurityException {
         Drive userDrive = GoogleAuthorizationFlow.getDriveService();
         Drive.Files.List request = userDrive.files().list();
