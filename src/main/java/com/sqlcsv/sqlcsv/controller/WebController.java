@@ -4,8 +4,8 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.sqlcsv.sqlcsv.google.GoogleAuthorizationFlow;
-import com.sqlcsv.sqlcsv.service.DriveService;
-import com.sqlcsv.sqlcsv.service.SheetsService;
+import com.sqlcsv.sqlcsv.service.IDriveService;
+import com.sqlcsv.sqlcsv.service.ISheetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +19,11 @@ import java.util.Map;
 
 @Controller
 public class WebController {
-    private DriveService driveService;
-    private SheetsService sheetsService;
+    private IDriveService driveService;
+    private ISheetsService sheetsService;
 
     @Autowired
-    public WebController(DriveService driveService, SheetsService sheetsService) {
+    public WebController(IDriveService driveService, ISheetsService sheetsService) {
         this.sheetsService = sheetsService;
         this.driveService = driveService;
     }
