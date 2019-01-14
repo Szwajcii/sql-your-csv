@@ -15,9 +15,9 @@
 
 <div id="filesTableContainer">
     <table id="filesTable" class="table table-bordered">
-        <tbody>
+        <tbody th:each="element : ${spreadsheets}">
         <tr>
-            <td th:text="${entry}"></td>
+            <td th:id="${element.key}" th:text="${element.value}"></td>
             <td>abc.csv</td>
         </tr>
         </tbody>
