@@ -3,9 +3,5 @@ function parseQuery() {
     let regex = /[a-z]{3}/;
     let isProperQuery = regex.test(queryValue);
     let button = document.getElementById("submitButton");
-    if (isProperQuery) {
-        button.disabled = false;
-    } else {
-        button.disabled = true;
-    }
+    button.disabled = !isProperQuery;
 }
