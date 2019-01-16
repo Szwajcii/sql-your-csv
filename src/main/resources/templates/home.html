@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bootstrap.css">
-    <link rel="stylesheet" href="style.css">
-    <script type="application/javascript" src="scripts.js"></script>
+    <link rel="stylesheet" th:href="bootstrap.css">
+    <link rel="stylesheet" th:href="style.css">
+    <script type="application/javascript" th:src="scripts.js"></script>
     <title>SQL Your CSV!</title>
 </head>
 <body>
@@ -21,34 +21,18 @@
         </form>
     </div>
     <h2 class="tableInfo">Available CSV files</h2>
-    <div id="uploadFormContainer">
-        <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
-            <input type="file" name="file" multiple/><br/><br/>
-            <input type="submit" value="Upload" />
-        </form>
-    </div>
+    <!--TODO UPLOAD-->
+    <!--<div id="uploadFormContainer">-->
+        <!--<form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">-->
+            <!--<input type="file" name="file" multiple/><br/><br/>-->
+            <!--<input type="submit" value="Upload" />-->
+        <!--</form>-->
+    <!--</div>-->
     <div id="filesTableContainer">
         <table id="filesTable" class="table table-bordered">
-            <tbody>
+            <tbody th:each="element : ${sheetNames}">
             <tr>
-                <td th:text="${entry}"></td>
-                <td>abc.csv</td>
-            </tr>
-            <tr>
-                <td>xyz.csv</td>
-                <td>abc.csv</td>
-            </tr>
-            <tr>
-                <td>xyz.csv</td>
-                <td>abc.csv</td>
-            </tr>
-            <tr>
-                <td>xyz.csv</td>
-                <td>abc.csv</td>
-            </tr>
-            <tr>
-                <td>xyz.csv</td>
-                <td>abc.csv</td>
+                <td th:text="${element}"></td>
             </tr>
             </tbody>
         </table>
