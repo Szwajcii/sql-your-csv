@@ -1,7 +1,6 @@
-package com.sqlcsv.sqlcsv.repository;
+package com.sqlcsv.sqlcsv.todo;
 
 import com.sqlcsv.sqlcsv.model.Table;
-import com.sqlcsv.sqlcsv.service.TableRepositoryPredicates;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,6 @@ import java.util.Optional;
 @Getter
 @Repository
 public class TableRepository implements TableRepositoryInterface {
-
     private List<Table> tables;
 
     public TableRepository() {

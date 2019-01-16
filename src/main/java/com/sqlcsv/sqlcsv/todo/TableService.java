@@ -1,4 +1,4 @@
-package com.sqlcsv.sqlcsv.service;
+package com.sqlcsv.sqlcsv.todo;
 
 import com.sqlcsv.sqlcsv.model.Table;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TableService implements TableServiceInterface {
+public class TableService implements ITableService {
 
 
     @Override
@@ -15,7 +15,7 @@ public class TableService implements TableServiceInterface {
     }
 
     @Override
-    public List<String> gettAllSheetsNames(int spreadsheetId) {
+    public List<String> getAllSheetsNames(int spreadsheetId) {
         return null;
     }
 
