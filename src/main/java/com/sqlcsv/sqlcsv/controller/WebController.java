@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,20 +31,28 @@ public class WebController {
         this.driveService = driveService;
     }
 
-
     @GetMapping("/")
+    public void redirectTo(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/auth");
+    }
+
+
+    @GetMapping("/auth")
     public void getAuthPage(HttpServletResponse response) throws IOException, GeneralSecurityException {
         String url = GoogleAuthorizationFlow.getNewFlow().newAuthorizationUrl()
                 .setRedirectUri("http://localhost:8080/callback")
                 .build();
         response.sendRedirect(url);
     }
-    @GetMapping("/home")
-    public String doGet(Model model) throws IOException, GeneralSecurityException {
 
-//        model.addAttribute("spreadsheets", spreadsheets);
+    @GetMapping("/query")
+    public String doGet(HttpServletRequest request, Model model) throws IOException, GeneralSecurityException {
+        String spreadsheetId =  request.getParameter("spreadsheetId");
+        List<String> sheetsNames = sheetsService.getSheetsNamesFromSpreadsheet(spreadsheetId);
+        model.addAttribute("sheetNames", sheetsNames);
         return "home";
     }
+
     @GetMapping("/choose")
     public String getChoosePage(Model model) throws IOException, GeneralSecurityException {
         Map<String, String> spreadsheets = driveService.getAllSpreadsheets();
@@ -49,12 +60,16 @@ public class WebController {
         return "choosePage";
     }
 
+    @PostMapping("/choose")
+    public void redirectToQueryPage(HttpServletResponse response, @RequestParam("spreadsheetId") String spreadsheetId) throws IOException {
+        response.sendRedirect("/query?spreadsheetId=" + spreadsheetId);
+    }
+
     @GetMapping("/callback")
     public void getToken(HttpServletRequest request, HttpServletResponse response) throws IOException, GeneralSecurityException {
         String code = request.getParameter("code");
         authorizeAndSaveToken(code);
         response.sendRedirect("http://localhost:8080/choose");
-
     }
 
     private void authorizeAndSaveToken(String code) throws IOException, GeneralSecurityException {
@@ -70,6 +85,4 @@ public class WebController {
         TokenResponse tokenResponse = query.execute();
         flow.createAndStoreCredential(tokenResponse,"user");
     }
-
-
 }
